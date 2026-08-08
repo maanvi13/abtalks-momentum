@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
 import { TourStep } from '../types/tour';
 import { useDemoState } from './DemoStateContext';
+import { DemoStateMode } from '../types';
 
 interface TourContextType {
   isTourActive: boolean;
@@ -9,6 +10,7 @@ interface TourContextType {
   totalSteps: number;
   isEndingModalOpen: boolean;
   startTour: () => void;
+  startStateWalkthrough: (mode: DemoStateMode) => void;
   stopTour: () => void;
   nextStep: () => void;
   prevStep: () => void;
@@ -108,17 +110,17 @@ export const TOUR_STEPS: TourStep[] = [
     route: '/dashboard',
     targetAttr: 'momentum-card',
     demoState: 'new',
-    durationMs: 3500,
+    durationMs: 4000,
     position: 'bottom',
   },
   {
     id: 'state-recovering',
-    title: '💙 Journey State: Recovering',
-    description: 'Encouraging recovery mode after a busy exam week without resetting progress to zero.',
+    title: '💙 Journey State: Momentum Recovering',
+    description: 'Notice Priya missed coding during exam week. Her momentum slowed down to 62%, BUT her progress was NOT reset to zero! Completing today’s task rebuilds her momentum back to Thriving!',
     route: '/dashboard',
     targetAttr: 'momentum-card',
     demoState: 'recovering',
-    durationMs: 3500,
+    durationMs: 5500,
     position: 'bottom',
   },
   {
@@ -128,7 +130,7 @@ export const TOUR_STEPS: TourStep[] = [
     route: '/dashboard',
     targetAttr: 'recruiter-snapshot',
     demoState: 'empty',
-    durationMs: 3500,
+    durationMs: 4000,
     position: 'top',
   },
   {
@@ -168,6 +170,24 @@ export const TourProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsEndingModalOpen(false);
     selectDemoState('building');
     setCurrentStepIndex(0);
+    setIsTourActive(true);
+  };
+
+  // Start State-Specific Demo Walkthrough
+  const startStateWalkthrough = (mode: DemoStateMode) => {
+    clearTimer();
+    setIsEndingModalOpen(false);
+    selectDemoState(mode);
+
+    // Map mode to target step index
+    let stepIndex = 0;
+    if (mode === 'new') stepIndex = 9;
+    else if (mode === 'recovering') stepIndex = 10;
+    else if (mode === 'empty') stepIndex = 11;
+    else if (mode === 'graduate') stepIndex = 12;
+    else if (mode === 'building') stepIndex = 2;
+
+    setCurrentStepIndex(stepIndex);
     setIsTourActive(true);
   };
 
@@ -220,7 +240,6 @@ export const TourProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     if (!isTourActive || !currentStep) return;
 
-    // Do not auto-advance step 7 until autoFill completes
     const duration = currentStep.durationMs || 4000;
     timerRef.current = setTimeout(() => {
       nextStep();
@@ -238,6 +257,7 @@ export const TourProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         totalSteps: TOUR_STEPS.length,
         isEndingModalOpen,
         startTour,
+        startStateWalkthrough,
         stopTour,
         nextStep,
         prevStep,
