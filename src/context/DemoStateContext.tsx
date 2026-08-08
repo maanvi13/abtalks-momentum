@@ -98,18 +98,21 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     return tasks.find(t => t.id === id);
   };
 
-  // Handle live challenge submission
+  // Handle live challenge submission (Idempotent per day)
   const submitDayChallenge = (payload: SubmissionPayload): boolean => {
     const { dayId, githubUrl, linkedinUrl, winLog, mood } = payload;
-    
-    // Update task
+    const targetTask = tasks.find(t => t.id === dayId);
+    const wasAlreadyCompleted = Boolean(targetTask?.isCompleted);
+    const hadWinLogged = Boolean(targetTask?.winLog);
+
+    // 1. Update task in catalog
     setTasks(prevTasks =>
       prevTasks.map(t => {
         if (t.id === dayId) {
           return {
             ...t,
             isCompleted: true,
-            completedAt: new Date().toISOString().split('T')[0],
+            completedAt: t.completedAt || new Date().toISOString().split('T')[0],
             githubSubmissionUrl: githubUrl,
             linkedinSubmissionUrl: linkedinUrl,
             winLog: winLog,
@@ -120,11 +123,14 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
       })
     );
 
-    // Update student stats
+    // 2. Update student stats (Only increment score and count for NEW day completions)
     setStudent(prev => {
-      const newCompletedCount = prev.completedDaysCount + (tasks.find(t => t.id === dayId)?.isCompleted ? 0 : 1);
-      const newWinsCount = prev.winsLoggedCount + (winLog ? 1 : 0);
-      const newMomentum = Math.min(100, prev.momentumScore + 8);
+      const newCompletedCount = wasAlreadyCompleted ? prev.completedDaysCount : prev.completedDaysCount + 1;
+      const isNewWin = winLog.trim() && !hadWinLogged;
+      const newWinsCount = isNewWin ? prev.winsLoggedCount + 1 : prev.winsLoggedCount;
+      const newMomentum = wasAlreadyCompleted
+        ? prev.momentumScore
+        : Math.min(100, prev.momentumScore + 8);
       const isGraduate = newCompletedCount >= 60;
 
       return {
@@ -132,19 +138,24 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         completedDaysCount: newCompletedCount,
         winsLoggedCount: newWinsCount,
         momentumScore: isGraduate ? 100 : newMomentum,
-        momentumStatus: isGraduate ? 'Mastered' : newMomentum > 80 ? 'Thriving' : 'Building',
+        momentumStatus: isGraduate ? 'Mastered' : newMomentum >= 80 ? 'Thriving' : 'Building',
         isGithubConnected: true,
         isLinkedinConnected: true,
-        currentDay: Math.min(60, dayId + 1),
-        momentumMessage: `Fantastic work completing Day ${dayId}! Your submission proof and reflection win have been recorded.`
+        currentDay: Math.min(60, Math.max(prev.currentDay, dayId + 1)),
+        momentumMessage: wasAlreadyCompleted
+          ? `Updated Day ${dayId} submission proof!`
+          : `Fantastic work completing Day ${dayId}! Your submission proof and reflection win have been recorded.`
       };
     });
 
-    // Check unlocks
+    // 3. Unlock corresponding achievements
     setAchievements(prev =>
       prev.map(ach => {
         if (dayId === 12 && ach.id === 'day_12_master') {
           return { ...ach, isUnlocked: true, unlockedAt: 'Day 12' };
+        }
+        if (dayId === 1 && ach.id === 'first_step') {
+          return { ...ach, isUnlocked: true, unlockedAt: 'Day 1' };
         }
         return ach;
       })
