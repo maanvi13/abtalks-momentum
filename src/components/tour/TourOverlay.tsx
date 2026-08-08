@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ChevronRight, ChevronLeft, X, Play } from 'lucide-react';
+import { Sparkles, ChevronRight, ChevronLeft, X } from 'lucide-react';
 import { useTour } from '../../context/TourContext';
 
 export const TourOverlay: React.FC = () => {
@@ -77,13 +77,13 @@ export const TourOverlay: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 pointer-events-none">
-      {/* Darkened Spotlight Backdrop */}
+      {/* Darkened Spotlight Backdrop - No blur filters so content is crystal clear */}
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/65 backdrop-blur-[2px] pointer-events-auto"
+          className="absolute inset-0 bg-black/60 pointer-events-auto"
           onClick={stopTour}
         />
       </AnimatePresence>
@@ -114,7 +114,7 @@ export const TourOverlay: React.FC = () => {
           exit={{ opacity: 0, y: -12, scale: 0.96 }}
           transition={{ duration: 0.25 }}
           style={tooltipStyle}
-          className="w-[calc(100%-32px)] max-w-sm glass-card rounded-2xl p-4 border border-blue-500/40 shadow-2xl z-50 pointer-events-auto space-y-3"
+          className="w-[calc(100%-32px)] max-w-sm bg-[#18181B] rounded-2xl p-4 border border-blue-500/50 shadow-2xl z-50 pointer-events-auto space-y-3"
         >
           {/* Header */}
           <div className="flex items-center justify-between">

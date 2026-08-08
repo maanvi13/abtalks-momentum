@@ -44,7 +44,7 @@ export const RecruiterSnapshot: React.FC = () => {
         )}
       </div>
 
-      {/* Unlocked State vs Locked Blurred Preview */}
+      {/* Unlocked State vs Locked Clear Preview */}
       {isUnlocked ? (
         <div className="bg-zinc-900/80 rounded-xl p-4 border border-zinc-800 space-y-3">
           {/* Student Info Card */}
@@ -102,59 +102,53 @@ export const RecruiterSnapshot: React.FC = () => {
           </div>
         </div>
       ) : (
-        /* Blurred Locked State with Progressive Unlock Checklist */
-        <div className="relative rounded-xl overflow-hidden border border-zinc-800/80 p-4 space-y-3 bg-zinc-950/60">
-          {/* Blurred Placeholder background */}
-          <div className="absolute inset-0 backdrop-blur-md bg-zinc-950/80 z-10 flex flex-col items-center justify-center p-4 text-center space-y-2">
-            <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400 mb-1">
-              <Lock className="w-5 h-5" />
-            </div>
+        /* Clear High-Clarity Locked State with Progressive Unlock Checklist */
+        <div className="rounded-xl border border-purple-500/30 p-4 space-y-3 bg-zinc-900/90 text-center">
+          <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400 mx-auto">
+            <Lock className="w-5 h-5" />
+          </div>
+
+          <div>
             <h4 className="text-xs font-bold text-white">Recruiter Snapshot Locked</h4>
-            <p className="text-[11px] text-zinc-400 max-w-xs leading-relaxed">
-              Complete your profile setup to unlock recruiter verification. ({completedReqs}/4 tasks completed)
+            <p className="text-[11px] text-zinc-300 max-w-xs mx-auto mt-0.5 leading-relaxed">
+              Complete your profile setup to unlock recruiter verification ({completedReqs}/4 tasks completed)
             </p>
+          </div>
 
-            {/* Dynamic Unlock Checklist */}
-            <div className="w-full space-y-1.5 text-left pt-2 text-[11px]">
-              <div className="flex items-center justify-between text-zinc-300">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle className={`w-3.5 h-3.5 ${reqProfile ? 'text-emerald-400' : 'text-zinc-600'}`} />
-                  1. Complete Student Profile details
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-zinc-300">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle className={`w-3.5 h-3.5 ${reqGithub ? 'text-emerald-400' : 'text-zinc-600'}`} />
-                  2. Link GitHub Repository Account
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-zinc-300">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle className={`w-3.5 h-3.5 ${reqLinkedin ? 'text-emerald-400' : 'text-zinc-600'}`} />
-                  3. Link LinkedIn Profile URL
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-zinc-300">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle className={`w-3.5 h-3.5 ${reqChallenge ? 'text-emerald-400' : 'text-zinc-600'}`} />
-                  4. Complete your 1st coding challenge
-                </span>
-              </div>
+          {/* High-Clarity Unlock Checklist */}
+          <div className="w-full space-y-2 text-left bg-zinc-950/80 p-3 rounded-lg border border-zinc-800 text-[11px]">
+            <div className="flex items-center justify-between text-zinc-200">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className={`w-3.5 h-3.5 ${reqProfile ? 'text-emerald-400' : 'text-zinc-600'}`} />
+                1. Complete Student Profile details
+              </span>
             </div>
-
-            <Link
-              to="/profile"
-              className="mt-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-500 py-1.5 px-4 rounded-xl transition-all shadow-lg shadow-purple-600/20"
-            >
-              Complete Profile Setup
-            </Link>
+            <div className="flex items-center justify-between text-zinc-200">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className={`w-3.5 h-3.5 ${reqGithub ? 'text-emerald-400' : 'text-zinc-600'}`} />
+                2. Link GitHub Repository Account
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-zinc-200">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className={`w-3.5 h-3.5 ${reqLinkedin ? 'text-emerald-400' : 'text-zinc-600'}`} />
+                3. Link LinkedIn Profile URL
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-zinc-200">
+              <span className="flex items-center gap-1.5">
+                <CheckCircle className={`w-3.5 h-3.5 ${reqChallenge ? 'text-emerald-400' : 'text-zinc-600'}`} />
+                4. Complete your 1st coding challenge
+              </span>
+            </div>
           </div>
 
-          {/* Dummy background content blurred under overlay */}
-          <div className="opacity-20 blur-sm space-y-2 pointer-events-none">
-            <div className="h-10 bg-zinc-800 rounded-lg"></div>
-            <div className="h-8 bg-zinc-800 rounded-lg"></div>
-          </div>
+          <Link
+            to="/profile"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-purple-600 hover:bg-purple-500 py-2 px-4 rounded-xl transition-all shadow-lg shadow-purple-600/20"
+          >
+            Complete Profile Setup
+          </Link>
         </div>
       )}
     </div>
