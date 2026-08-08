@@ -1,6 +1,8 @@
 # PROMPTS.md — AI-Assisted Development Log
-
-This document provides a chronological, high-fidelity log of the AI prompts, objectives, and engineering outcomes that guided the architecture, design system, and full implementation of **ABTalks Momentum**.
+## About this Document
+This file is a chronological summary of the AI-assisted development process used during the hackathon, objectives, and engineering outcomes that guided the architecture, design system, and full implementation of **ABTalks Momentum**.
+Some prompts have been condensed for readability while preserving their technical intent.
+The document is intended to reflect the actual evolution of the project rather than reproduce full chat transcripts.
 
 ---
 
