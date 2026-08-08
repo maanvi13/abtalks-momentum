@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { Github, Linkedin, Sparkles, CheckCircle2, HeartHandshake, AlertCircle } from 'lucide-react';
 import { useDemoState } from '../../context/DemoStateContext';
+import { useTour } from '../../context/TourContext';
 import { MOOD_OPTIONS } from '../../data/mockData';
 import { ChallengeTask } from '../../types';
 
@@ -11,6 +12,7 @@ interface SubmissionCardProps {
 
 export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
   const { submitDayChallenge, student } = useDemoState();
+  const { isTourActive, currentStep } = useTour();
 
   const [githubUrl, setGithubUrl] = useState(task.githubSubmissionUrl || student.githubUrl || '');
   const [linkedinUrl, setLinkedinUrl] = useState(task.linkedinSubmissionUrl || student.linkedinUrl || '');
@@ -19,6 +21,40 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Auto-Fill Form & Trigger Submission during Tour Step 7
+  useEffect(() => {
+    if (isTourActive && currentStep && currentStep.autoFillForm) {
+      setGithubUrl('https://github.com/rohanm-dev/day-12-state-engine');
+      setLinkedinUrl('https://linkedin.com/posts/rohanm-dev-day12-challenge');
+      setWinLog('Mastered React Context state engines & dynamic component architecture!');
+      setSelectedMood('focused');
+
+      // Auto trigger submit after 1 second typing delay
+      const autoSubmitTimer = setTimeout(() => {
+        setIsSubmitting(true);
+        confetti({
+          particleCount: 90,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#2563EB', '#7C3AED', '#22C55E', '#F97316', '#FACC15'],
+        });
+
+        setTimeout(() => {
+          submitDayChallenge({
+            dayId: task.id,
+            githubUrl: 'https://github.com/rohanm-dev/day-12-state-engine',
+            linkedinUrl: 'https://linkedin.com/posts/rohanm-dev-day12-challenge',
+            winLog: 'Mastered React Context state engines & dynamic component architecture!',
+            mood: 'focused',
+          });
+          setIsSubmitting(false);
+        }, 500);
+      }, 1200);
+
+      return () => clearTimeout(autoSubmitTimer);
+    }
+  }, [isTourActive, currentStep]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,12 +88,14 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
         mood: selectedMood,
       });
       setIsSubmitting(false);
-      setShowSuccessModal(true);
+      if (!isTourActive) {
+        setShowSuccessModal(true);
+      }
     }, 400);
   };
 
   return (
-    <div className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4 relative">
+    <div data-tour="submission-form" className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4 relative">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
         <div>

@@ -43,7 +43,7 @@ export const AchievementShelf: React.FC = () => {
   });
 
   return (
-    <div className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4">
+    <div data-tour="achievement-shelf" className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

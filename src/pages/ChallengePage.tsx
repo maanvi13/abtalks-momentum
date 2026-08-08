@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ChevronLeft, ChevronRight, Clock, Target, BookOpen, ExternalLink, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Clock, BookOpen, ExternalLink, CheckCircle2 } from 'lucide-react';
 import { useDemoState } from '../context/DemoStateContext';
 import { SubmissionCard } from '../components/challenge/SubmissionCard';
 
@@ -54,7 +54,7 @@ export const ChallengePage: React.FC = () => {
       </div>
 
       {/* Task Banner */}
-      <div className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-3 relative overflow-hidden">
+      <div data-tour="challenge-banner" className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-3 relative overflow-hidden">
         <div className="flex items-center justify-between text-xs">
           <span className="px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30 font-bold">
             Day {task.id} — {task.category}

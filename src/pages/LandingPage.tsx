@@ -1,16 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Flame, Sparkles, ArrowRight, ShieldCheck, HeartHandshake, Zap, Trophy, CheckCircle2, XCircle } from 'lucide-react';
+import { Flame, Sparkles, ArrowRight, ShieldCheck, HeartHandshake, Trophy, CheckCircle2, XCircle, Rocket } from 'lucide-react';
 import { useDemoState } from '../context/DemoStateContext';
+import { useTour } from '../context/TourContext';
 
 export const LandingPage: React.FC = () => {
   const { student } = useDemoState();
+  const { startTour } = useTour();
   const currentDay = student.currentDay || 1;
 
   return (
     <div className="p-4 sm:p-5 space-y-6 animate-in fade-in duration-300">
       {/* Hero Section */}
-      <div className="relative rounded-2xl p-6 bg-gradient-to-br from-blue-900/30 via-zinc-900 to-purple-900/20 border border-zinc-800 space-y-4 overflow-hidden text-center">
+      <div
+        data-tour="landing-hero"
+        className="relative rounded-2xl p-6 bg-gradient-to-br from-blue-900/30 via-zinc-900 to-purple-900/20 border border-zinc-800 space-y-4 overflow-hidden text-center"
+      >
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5" />
           <span>ABTalks 60-Day Coding Challenge Redesign</span>
@@ -27,27 +32,28 @@ export const LandingPage: React.FC = () => {
           Designed for late-night college coders. Replaces anxiety-inducing streak maintenance with sustainable progress, wins logging, and recruiter proof.
         </p>
 
-        {/* CTA Buttons */}
+        {/* Hero CTAs */}
         <div className="pt-2 flex flex-col sm:flex-row gap-2.5 items-center justify-center">
           <Link
             to="/dashboard"
             className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/25 transition-all flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
           >
-            <span>Open Student Dashboard</span>
-            <ArrowRight className="w-4 h-4" />
+            <Rocket className="w-4 h-4" />
+            <span>Start Your Journey</span>
           </Link>
 
-          <Link
-            to={`/day/${currentDay}`}
-            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-200 font-semibold text-xs border border-zinc-700/60 transition-all flex items-center justify-center gap-1.5"
+          <button
+            onClick={startTour}
+            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-purple-300 font-semibold text-xs border border-purple-500/30 hover:border-purple-500/60 transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-500/10"
           >
-            <span>Go to Day {currentDay} Mission</span>
-          </Link>
+            <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
+            <span>Take a 60-Second Product Tour</span>
+          </button>
         </div>
       </div>
 
       {/* Comparison: Traditional Streaks vs ABTalks Momentum */}
-      <div className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4">
+      <div data-tour="landing-comparison" className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4">
         <h2 className="text-sm font-bold text-white tracking-tight flex items-center gap-2">
           <Flame className="w-4 h-4 text-amber-400" />
           Why Redesign the Streak Model?

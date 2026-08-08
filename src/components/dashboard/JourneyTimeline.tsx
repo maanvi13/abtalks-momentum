@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, CheckCircle2, Circle, ArrowRight } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { useDemoState } from '../../context/DemoStateContext';
 
 export const JourneyTimeline: React.FC = () => {
@@ -8,7 +8,7 @@ export const JourneyTimeline: React.FC = () => {
   const activeDay = student.currentDay || 1;
 
   return (
-    <div className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4">
+    <div data-tour="journey-timeline" className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

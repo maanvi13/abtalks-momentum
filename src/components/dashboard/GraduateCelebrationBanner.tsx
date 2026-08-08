@@ -25,7 +25,7 @@ export const GraduateCelebrationBanner: React.FC = () => {
   };
 
   return (
-    <div className="relative rounded-2xl p-6 bg-gradient-to-br from-amber-500/15 via-purple-600/15 to-blue-600/15 border border-amber-500/40 shadow-2xl space-y-4 overflow-hidden">
+    <div data-tour="graduate-banner" className="relative rounded-2xl p-6 bg-gradient-to-br from-amber-500/15 via-purple-600/15 to-blue-600/15 border border-amber-500/40 shadow-2xl space-y-4 overflow-hidden">
       {/* Background Decorative Ambient */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 

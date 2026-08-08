@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flame, Info, HeartHandshake, Sparkles } from 'lucide-react';
+import { Flame, HeartHandshake, Sparkles } from 'lucide-react';
 import { useDemoState } from '../../context/DemoStateContext';
 
 export const MomentumCard: React.FC = () => {
@@ -13,7 +13,7 @@ export const MomentumCard: React.FC = () => {
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="glass-card rounded-2xl p-5 border border-zinc-800 relative overflow-hidden space-y-4">
+    <div data-tour="momentum-card" className="glass-card rounded-2xl p-5 border border-zinc-800 relative overflow-hidden space-y-4">
       {/* Top Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

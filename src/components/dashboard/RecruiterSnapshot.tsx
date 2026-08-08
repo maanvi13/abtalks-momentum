@@ -16,7 +16,7 @@ export const RecruiterSnapshot: React.FC = () => {
   const isUnlocked = completedReqs === 4;
 
   return (
-    <div className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4 relative overflow-hidden">
+    <div data-tour="recruiter-snapshot" className="glass-card rounded-2xl p-5 border border-zinc-800 space-y-4 relative overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
