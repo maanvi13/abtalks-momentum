@@ -1,11 +1,9 @@
 import React from 'react';
-import { Flame, HeartHandshake, Sparkles, Play, ShieldCheck, Layers } from 'lucide-react';
+import { Flame, HeartHandshake, Sparkles, ShieldCheck, Layers } from 'lucide-react';
 import { useDemoState } from '../../context/DemoStateContext';
-import { useTour } from '../../context/TourContext';
 
 export const MomentumCard: React.FC = () => {
   const { student } = useDemoState();
-  const { startStateWalkthrough } = useTour();
   const score = student.momentumScore || 0;
   const isRecovering = student.momentumStatus === 'Recovering';
 
@@ -146,36 +144,6 @@ export const MomentumCard: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Special Recovery Video / Interactive Animated Banner */}
-      {isRecovering && (
-        <div className="rounded-xl p-3.5 bg-gradient-to-r from-indigo-950/60 via-purple-950/40 to-zinc-900 border border-indigo-500/40 space-y-2 relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-300">
-                <HeartHandshake className="w-4 h-4 animate-bounce-slow" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-white flex items-center gap-1">
-                  <span>Getting Back On Track Showcase</span>
-                  <span className="text-[9px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 px-1.5 py-0.2 rounded font-mono">
-                    LIVE RECOVERY
-                  </span>
-                </h4>
-                <p className="text-[10px] text-indigo-200/90">Completing 1 task today restores Momentum to 88%!</p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => startStateWalkthrough('recovering')}
-              className="px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold shadow-md shadow-indigo-600/30 flex items-center gap-1 transition-all hover:scale-105 shrink-0"
-            >
-              <Play className="w-3 h-3 fill-white" />
-              <span>Watch Demo</span>
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Non-Punitive Motivational Banner */}
       <div

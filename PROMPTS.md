@@ -426,6 +426,34 @@ Fix Product Tour tooltip cards (`TourOverlay.tsx`) so that all 13 tour steps fit
 ### Outcome
 Successfully fixed Product Tour tooltip cards, ensuring all 13 steps fit cleanly within 390px mobile screens without right-side clipping, passing clean production build (`npm run build`).
 
+---
+
+## Prompt 21 – Header Layout Overflow Fix & Recovery Demo Banner Removal
+
+### Timestamp
+2026-08-09 03:15:16
+
+### Objective
+Fix Navbar header elements (`Navbar.tsx`) to prevent active state badges (`RECOVERING`, `BUILDING`) from going out of frame on small mobile screens, and remove the recovery showcase demo banner from `MomentumCard.tsx`.
+
+### Prompt
+> here the newcomer, recovery state these are out of the frame fix that and also remove this feture in the recovery state
+
+### Implementation Summary
+- Updated `Navbar.tsx` responsive header layout:
+  - Made logo & title compact (`ABTalks Momentum`).
+  - Set state badge (`{activeDemoMode}`) to `hidden sm:inline-block` on mobile viewports under 400px to guarantee zero out-of-frame horizontal overflow.
+- Removed the `Getting Back On Track Showcase / LIVE RECOVERY / Watch Demo` banner block from `MomentumCard.tsx`.
+
+### Files Modified
+- `src/components/layout/Navbar.tsx`
+- `src/components/dashboard/MomentumCard.tsx`
+- `PROMPTS.md`
+
+### Outcome
+Successfully fixed Navbar header badge overflow on mobile screens and removed the recovery showcase demo banner from the Dashboard Momentum card, passing clean production build (`npm run build`).
+
+
 
 
 
