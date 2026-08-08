@@ -30,8 +30,7 @@ export const TourOverlay: React.FC = () => {
     const updateRect = () => {
       const el = document.querySelector(`[data-tour="${currentStep.targetAttr}"]`);
       if (el) {
-        // Scroll into view smoothly if needed
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         setTargetRect(el.getBoundingClientRect());
       } else {
         setTargetRect(null);
@@ -51,33 +50,9 @@ export const TourOverlay: React.FC = () => {
 
   if (!isTourActive || !currentStep) return null;
 
-  // Calculate Tooltip Positioning
-  let tooltipStyle: React.CSSProperties = {
-    position: 'fixed',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    bottom: '90px',
-  };
-
-  if (targetRect) {
-    if (currentStep.position === 'top' && targetRect.top > 250) {
-      tooltipStyle = {
-        position: 'fixed',
-        left: `${Math.max(20, Math.min(window.innerWidth - 380, targetRect.left + targetRect.width / 2 - 180))}px`,
-        top: `${Math.max(20, targetRect.top - 200)}px`,
-      };
-    } else if (currentStep.position === 'bottom' && targetRect.bottom < window.innerHeight - 220) {
-      tooltipStyle = {
-        position: 'fixed',
-        left: `${Math.max(20, Math.min(window.innerWidth - 380, targetRect.left + targetRect.width / 2 - 180))}px`,
-        top: `${targetRect.bottom + 16}px`,
-      };
-    }
-  }
-
   return (
-    <div className="fixed inset-0 z-50 pointer-events-none">
-      {/* Darkened Spotlight Backdrop - No blur filters so content is crystal clear */}
+    <div className="fixed inset-0 z-50 pointer-events-none flex flex-col items-center justify-end pb-20 px-3">
+      {/* Darkened Spotlight Backdrop - Crisp without blur filters */}
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
@@ -105,16 +80,15 @@ export const TourOverlay: React.FC = () => {
         />
       )}
 
-      {/* Interactive Tooltip Box */}
+      {/* Interactive Mobile-Fitted Product Tour Tooltip Box */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentStepIndex}
-          initial={{ opacity: 0, y: 12, scale: 0.96 }}
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -12, scale: 0.96 }}
+          exit={{ opacity: 0, y: -16, scale: 0.96 }}
           transition={{ duration: 0.25 }}
-          style={tooltipStyle}
-          className="w-[calc(100%-32px)] max-w-sm bg-[#18181B] rounded-2xl p-4 border border-blue-500/50 shadow-2xl z-50 pointer-events-auto space-y-3"
+          className="w-full max-w-[370px] bg-[#18181B] rounded-2xl p-3.5 sm:p-4 border border-blue-500/50 shadow-2xl z-50 pointer-events-auto space-y-3 max-h-[82vh] overflow-y-auto"
         >
           {/* Header */}
           <div className="flex items-center justify-between">
@@ -128,15 +102,15 @@ export const TourOverlay: React.FC = () => {
               onClick={stopTour}
               className="text-[11px] font-semibold text-zinc-400 hover:text-white flex items-center gap-1 px-2 py-0.5 rounded-lg hover:bg-zinc-800 transition-colors"
             >
-              <span>Skip Tour</span>
+              <span>Skip</span>
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Body */}
           <div className="space-y-1">
-            <h3 className="text-sm font-bold text-white tracking-tight">{currentStep.title}</h3>
-            <p className="text-xs text-zinc-300 leading-relaxed">{currentStep.description}</p>
+            <h3 className="text-xs sm:text-sm font-bold text-white tracking-tight leading-snug">{currentStep.title}</h3>
+            <p className="text-[11px] sm:text-xs text-zinc-300 leading-relaxed">{currentStep.description}</p>
           </div>
 
           {/* Progress Bar & Navigation Controls */}
@@ -171,7 +145,7 @@ export const TourOverlay: React.FC = () => {
 
               <button
                 onClick={nextStep}
-                className="flex items-center gap-1 py-1.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md shadow-blue-600/30 transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1 py-1.5 px-3.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md shadow-blue-600/30 transition-all hover:scale-105 active:scale-95"
               >
                 <span>{currentStepIndex === totalSteps - 1 ? 'Finish' : 'Next'}</span>
                 <ChevronRight className="w-3.5 h-3.5" />

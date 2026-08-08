@@ -400,6 +400,33 @@ Eliminate card overlapping and horizontal clipping on mobile screen viewports by
 ### Outcome
 Successfully eliminated card overlap and horizontal clipping across all 8 simulation tour steps, ensuring 100% visible, perfectly aligned, single-card experience on 390px mobile viewports, passing clean production build (`npm run build`).
 
+---
+
+## Prompt 20 – Product Tour Tooltip Cards Mobile Viewport Fit
+
+### Timestamp
+2026-08-09 03:10:53
+
+### Objective
+Fix Product Tour tooltip cards (`TourOverlay.tsx`) so that all 13 tour steps fit 100% inside 390px mobile viewports without overflowing horizontally off screen.
+
+### Prompt
+> also fix the product tour cards
+
+### Implementation Summary
+- Refactored `TourOverlay.tsx` overlay container positioning to:
+  `fixed inset-0 z-50 pointer-events-none flex flex-col items-center justify-end pb-20 px-3`.
+- Bounded Product Tour tooltip card container to `w-full max-w-[370px] bg-[#18181B] rounded-2xl p-3.5 sm:p-4 max-h-[82vh] overflow-y-auto`.
+- Replaced dynamic window-relative pixel positioning with container-centered flexbox alignment, ensuring 0 right-side clipping across all 13 product tour steps.
+
+### Files Modified
+- `src/components/tour/TourOverlay.tsx`
+- `PROMPTS.md`
+
+### Outcome
+Successfully fixed Product Tour tooltip cards, ensuring all 13 steps fit cleanly within 390px mobile screens without right-side clipping, passing clean production build (`npm run build`).
+
+
 
 
 
