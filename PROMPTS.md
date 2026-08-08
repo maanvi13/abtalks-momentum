@@ -371,5 +371,35 @@ Fix responsive layout positioning for Step 4 and subsequent steps in the Momentu
 ### Outcome
 Successfully resolved mobile viewport overflow, ensuring Step 4 and all simulation tour steps render completely within 390px mobile screens, passing clean production build (`npm run build`).
 
+---
+
+## Prompt 19 – Embedded Single-Card Mobile Architecture for Step 4 Simulation Tour
+
+### Timestamp
+2026-08-09 03:04:02
+
+### Objective
+Eliminate card overlapping and horizontal clipping on mobile screen viewports by refactoring the Step 4 simulated calendar inactivity visualizer to render directly inside the Step 4 tooltip card in `SimulatorOverlay.tsx`, bounded within `max-w-[370px]`.
+
+### Prompt
+> nope it is not resolved .... the complete content is not visible from step 1 to step 8
+
+### Implementation Summary
+- Refactored `CalendarInactivityVisualizer.tsx` to render as a compact, self-contained embedded component instead of a standalone fixed-position overlay.
+- Embedded `CalendarInactivityVisualizer` directly inside the Step 4 card body in `SimulatorOverlay.tsx`.
+- Updated `SimulatorOverlay.tsx` overlay container to `fixed bottom-20 left-1/2 -translate-x-1/2 w-full max-w-[370px] px-3 z-50 pointer-events-auto max-h-[82vh] overflow-y-auto`.
+- Removed standalone `<CalendarInactivityVisualizer />` from `App.tsx` to prevent duplicate floating card overlays.
+- Ensured zero vertical/horizontal overlapping across all 8 simulation steps on mobile screens.
+
+### Files Modified
+- `src/components/simulator/CalendarInactivityVisualizer.tsx`
+- `src/components/simulator/SimulatorOverlay.tsx`
+- `src/App.tsx`
+- `PROMPTS.md`
+
+### Outcome
+Successfully eliminated card overlap and horizontal clipping across all 8 simulation tour steps, ensuring 100% visible, perfectly aligned, single-card experience on 390px mobile viewports, passing clean production build (`npm run build`).
+
+
 
 

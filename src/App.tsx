@@ -12,7 +12,6 @@ import { TourEndingModal } from './components/tour/TourEndingModal';
 import { MilestoneRecoveryCelebration } from './components/challenge/MilestoneRecoveryCelebration';
 import { Toast } from './components/common/Toast';
 import { SimulatorOverlay } from './components/simulator/SimulatorOverlay';
-import { CalendarInactivityVisualizer } from './components/simulator/CalendarInactivityVisualizer';
 import { SimulatorFinalModal } from './components/simulator/SimulatorFinalModal';
 
 import { LandingPage } from './pages/LandingPage';
@@ -44,7 +43,6 @@ export function App() {
               <MilestoneRecoveryCelebration />
               <Toast />
               <SimulatorOverlay />
-              <CalendarInactivityVisualizer />
               <SimulatorFinalModal />
             </MobileShell>
           </TourProvider>

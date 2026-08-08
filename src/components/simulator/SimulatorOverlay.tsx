@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, ChevronRight, ChevronLeft, X } from 'lucide-react';
 import { useSimulator } from '../../context/SimulatorContext';
+import { CalendarInactivityVisualizer } from './CalendarInactivityVisualizer';
 
 export const SimulatorOverlay: React.FC = () => {
   const {
@@ -39,7 +40,6 @@ export const SimulatorOverlay: React.FC = () => {
     const updateRect = () => {
       const el = document.querySelector(`[data-tour="${currentSimStep.targetAttr}"]`);
       if (el) {
-        // Scroll element into view safely for mobile screens
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         setTargetRect(el.getBoundingClientRect());
       } else {
@@ -60,40 +60,15 @@ export const SimulatorOverlay: React.FC = () => {
 
   if (!isSimulating || !currentSimStep) return null;
 
-  // Calculate Mobile-Responsive Tooltip Positioning (Ensures text is NEVER cut off)
-  const isMobile = window.innerWidth < 640;
-  let tooltipStyle: React.CSSProperties = {
-    position: 'fixed',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    bottom: isMobile ? '72px' : '90px',
-  };
-
-  if (targetRect && !isMobile) {
-    if (currentSimStep.position === 'top' && targetRect.top > 250) {
-      tooltipStyle = {
-        position: 'fixed',
-        left: `${Math.max(16, Math.min(window.innerWidth - 380, targetRect.left + targetRect.width / 2 - 180))}px`,
-        top: `${Math.max(16, targetRect.top - 200)}px`,
-      };
-    } else if (currentSimStep.position === 'bottom' && targetRect.bottom < window.innerHeight - 220) {
-      tooltipStyle = {
-        position: 'fixed',
-        left: `${Math.max(16, Math.min(window.innerWidth - 380, targetRect.left + targetRect.width / 2 - 180))}px`,
-        top: `${Math.min(window.innerHeight - 200, targetRect.bottom + 16)}px`,
-      };
-    }
-  }
-
   return (
-    <div className="fixed inset-0 z-50 pointer-events-none">
+    <div className="fixed inset-0 z-50 pointer-events-none flex flex-col items-center justify-end pb-20 px-3">
       {/* Darkened Backdrop Overlay - Crisp without blur filters */}
       <AnimatePresence>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/60 pointer-events-auto"
+          className="absolute inset-0 bg-black/65 pointer-events-auto"
           onClick={stopSimulator}
         />
       </AnimatePresence>
@@ -115,16 +90,15 @@ export const SimulatorOverlay: React.FC = () => {
         />
       )}
 
-      {/* Interactive Mobile-Optimized Simulator Tooltip Box */}
+      {/* Interactive Mobile-Fitted Simulator Tooltip Box */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSimStepIndex}
-          initial={{ opacity: 0, y: 12, scale: 0.96 }}
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -12, scale: 0.96 }}
+          exit={{ opacity: 0, y: -16, scale: 0.96 }}
           transition={{ duration: 0.25 }}
-          style={tooltipStyle}
-          className="w-[calc(100%-32px)] max-w-sm bg-[#18181B] rounded-2xl p-3.5 sm:p-4 border border-purple-500/50 shadow-2xl z-50 pointer-events-auto space-y-2.5"
+          className="w-full max-w-[370px] bg-[#18181B] rounded-2xl p-3.5 sm:p-4 border border-purple-500/50 shadow-2xl z-50 pointer-events-auto space-y-3 max-h-[82vh] overflow-y-auto"
         >
           {/* Header */}
           <div className="flex items-center justify-between">
@@ -143,11 +117,18 @@ export const SimulatorOverlay: React.FC = () => {
             </button>
           </div>
 
-          {/* Body */}
+          {/* Body Title & Description */}
           <div className="space-y-1">
             <h3 className="text-xs sm:text-sm font-bold text-white tracking-tight leading-snug">{currentSimStep.title}</h3>
-            <p className="text-[11px] sm:text-xs text-zinc-300 leading-relaxed max-h-24 overflow-y-auto pr-1">{currentSimStep.description}</p>
+            <p className="text-[11px] sm:text-xs text-zinc-300 leading-relaxed">{currentSimStep.description}</p>
           </div>
+
+          {/* Step 4 Embedded Calendar Inactivity Visualizer */}
+          {currentSimStep.stepNumber === 4 && (
+            <div className="pt-1">
+              <CalendarInactivityVisualizer />
+            </div>
+          )}
 
           {/* Progress Bar & Navigation Controls */}
           <div className="pt-2 border-t border-zinc-800 flex items-center justify-between">
@@ -172,7 +153,7 @@ export const SimulatorOverlay: React.FC = () => {
               {currentSimStepIndex > 0 && (
                 <button
                   onClick={prevSimStep}
-                  className="p-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-xs transition-colors"
+                  className="p-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 text-xs transition-colors"
                   title="Previous Step"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
@@ -181,7 +162,7 @@ export const SimulatorOverlay: React.FC = () => {
 
               <button
                 onClick={nextSimStep}
-                className="flex items-center gap-1 py-1 px-3 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-xs font-bold shadow-md shadow-purple-600/30 transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1 py-1.5 px-3.5 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-xs font-bold shadow-md shadow-purple-600/30 transition-all hover:scale-105 active:scale-95"
               >
                 <span>{currentSimStepIndex === totalSimSteps - 1 ? 'Finish' : 'Next'}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
