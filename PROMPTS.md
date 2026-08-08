@@ -453,6 +453,32 @@ Fix Navbar header elements (`Navbar.tsx`) to prevent active state badges (`RECOV
 ### Outcome
 Successfully fixed Navbar header badge overflow on mobile screens and removed the recovery showcase demo banner from the Dashboard Momentum card, passing clean production build (`npm run build`).
 
+---
+
+## Prompt 22 – Vercel SPA Routing Configuration (vercel.json)
+
+### Timestamp
+2026-08-09 04:24:18
+
+### Objective
+Add `vercel.json` with SPA rewrite rules to ensure client-side React Router navigation works seamlessly on Vercel deployment without returning 404 errors on sub-page refreshes.
+
+### Prompt
+> append all these recent change as the next chronological entry in `PROMPTS.md`.
+
+### Implementation Summary
+- Created `vercel.json` in the root directory defining wildcard rewrite rules (`"source": "/(.*)"`, `"destination": "/index.html"`) so Vercel forwards all route requests (`/dashboard`, `/day/:dayId`, `/profile`) to `index.html`.
+- Updated `package.json` dependencies.
+
+### Files Modified
+- `vercel.json`
+- `package.json`
+- `PROMPTS.md`
+
+### Outcome
+Successfully configured Vercel deployment SPA rewrite rules, ensuring unbroken client-side routing across all application paths.
+
+
 
 
 
