@@ -342,4 +342,34 @@ Enhance the Momentum Overview card (`MomentumCard.tsx`) with a clear, interactiv
 ### Outcome
 Successfully added the Momentum State Percentage Allocation Legend to the Dashboard Overview card, passing clean production build (`npm run build`).
 
+---
+
+## Prompt 18 – Responsive Mobile View Fix for Simulation Tour Step 4
+
+### Timestamp
+2026-08-09 03:00:06
+
+### Objective
+Fix responsive layout positioning for Step 4 and subsequent steps in the Momentum Simulator to ensure all calendar visualizers, tooltips, and content remain 100% visible inside 390px mobile viewports without overflowing off screen.
+
+### Prompt
+> during the simulation tour the one thing the error is occuring is that from the step 4 the content is offf the mobile screen in the mobile view
+
+### Implementation Summary
+- Updated `SimulatorOverlay.tsx` tooltip style calculation:
+  - Enabled mobile detection (`window.innerWidth < 640`) to anchor tooltip safely at `bottom: 72px` (above navigation bar) on mobile screens.
+  - Clamped max top offset on desktop (`Math.min(window.innerHeight - 200, ...)`).
+  - Adjusted `scrollIntoView` block alignment to `nearest` on mobile.
+- Updated `CalendarInactivityVisualizer.tsx` overlay positioning:
+  - Moved overlay to `top-14 sm:top-16` with compact mobile padding (`p-3 sm:p-4`), ensuring the mini calendar fits comfortably on 390px screens above target elements.
+
+### Files Modified
+- `src/components/simulator/SimulatorOverlay.tsx`
+- `src/components/simulator/CalendarInactivityVisualizer.tsx`
+- `PROMPTS.md`
+
+### Outcome
+Successfully resolved mobile viewport overflow, ensuring Step 4 and all simulation tour steps render completely within 390px mobile screens, passing clean production build (`npm run build`).
+
+
 
