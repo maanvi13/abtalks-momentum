@@ -1,0 +1,251 @@
+# PROMPTS.md — AI-Assisted Development Log
+
+This document provides a chronological, high-fidelity log of the AI prompts, objectives, and engineering outcomes that guided the architecture, design system, and full implementation of **ABTalks Momentum**.
+
+---
+
+## Prompt 1: Initial Architecture & Requirement Analysis
+
+### Objective
+Summarize and analyze the initial product documentation (`PRODUCT_BRIEF.md`, `DESIGN_SYSTEM.md`, `USER_FLOW.md`, `IMPLEMENTATION_PLAN.md`) to establish core information architecture, component hierarchy, and user journey strategy without writing code immediately.
+
+### Prompt
+> Read PRODUCT_BRIEF.md, DESIGN_SYSTEM.md, USER_FLOW.md, and IMPLEMENTATION_PLAN.md.
+> Do not write any code yet.
+> First summarize your understanding of the product, user journey, architecture, components, and implementation plan.
+> Point out any inconsistencies or opportunities for improvement before we start building.
+
+### Outcome
+- Analyzed 60-day momentum platform philosophy ("Build Momentum, Not Pressure").
+- Identified key design pillars: Apple/Linear/Notion dark mode aesthetic, 390px mobile-first responsive layout, and non-punitive streak replacement mechanics.
+- Outlined lightweight state management strategy replacing Zustand with React Context (`DemoStateProvider`).
+
+---
+
+## Prompt 2: Core Foundation & Lightweight State Architecture
+
+### Objective
+Establish the project foundation with Vite, React, TypeScript, TailwindCSS, and Framer Motion. Implement dynamic routing (`/day/:dayId`) and build a persistent React Context (`DemoStateProvider`) to support 5 live demo states.
+
+### Prompt
+> The proposed architecture looks excellent. Please proceed with the following refinements:
+> 1. Use React Context instead of Zustand to keep the architecture lightweight and maintainable.
+> 2. Create a DemoStateProvider that initializes from local JSON, supports live interactions (submitting GitHub/LinkedIn links, Today's Win, mood selection, profile updates, etc.), and persists changes using localStorage. Demo Mode should be able to reset the state at any time.
+> 3. Implement dynamic routing using /day/:dayId while ensuring /day/12 exactly matches the judging requirements.
+> 4. Follow a premium mobile-first design (390px) inspired by Linear, GitHub, Notion and modern Apple interfaces. Use subtle glassmorphism selectively.
+> 5. Recruiter Snapshot should unlock progressively after meaningful milestones.
+
+### Outcome
+- Built `DemoStateContext.tsx` with `localStorage` caching and preset switcher supporting 5 demo states (`new`, `building`, `recovering`, `empty`, `graduate`).
+- Integrated dynamic React Router routes: `/`, `/dashboard`, `/day/:dayId`, and `/profile`.
+- Developed `RecruiterSnapshot.tsx` with dynamic unlock requirements (Profile setup, GitHub link, LinkedIn link, Day 1 challenge).
+- Built high-contrast custom CSS glassmorphism utility classes in `index.css`.
+
+---
+
+## Prompt 3: Achievement Shelf & Badge Layout Improvements
+
+### Objective
+Fix visual hierarchy and filter controls on the `AchievementShelf` component so unlocked badges sort first and clear lock hints are displayed.
+
+### Prompt
+> i feel like something is offf in this part... achievement Shelf
+> Milestone badges earned through progress
+> 5 / 8 Unlocked
+
+### Outcome
+- Reorganized `AchievementShelf.tsx` badge sorting algorithm so unlocked achievements display at the top.
+- Added `All`, `Unlocked`, and `Locked` filter tabs.
+- Added explicit lock hints and unlocked timestamp tags to improve clarity and user motivation.
+
+---
+
+## Prompt 4: Git Initial Push & Repository Remote Sync
+
+### Objective
+Commit all foundational codebase files and push to GitHub remote repository.
+
+### Prompt
+> pushh and commit in git
+
+### Outcome
+- Created clean initial Git commits and pushed to `main` branch (`https://github.com/maanvi13/abtalks-momentum.git`).
+
+---
+
+## Prompt 5: Graduate Journey PDF Report Generation
+
+### Objective
+Provide a client-side PDF Journey Report generator for students in the "Graduate (Day 60)" state to download a verified proof document of their 60-day journey.
+
+### Prompt
+> in the demo graduate state i wanna add the feature like it should create a pdf which has a demo content of the journey in the pdf
+
+### Outcome
+- Created `src/utils/generatePdfReport.ts` using `jsPDF` and `html2canvas`.
+- Integrated "Download Verified PDF Journey Report" CTA on `GraduateCelebrationBanner.tsx`.
+- Formatted PDF with candidate metadata, 60-day completion stats, recruiter verification badge, and streak consistency proof.
+
+---
+
+## Prompt 6: Interactive Guided Product Tour
+
+### Objective
+Build a 60-second interactive guided product walkthrough with spotlight cutouts, auto-filling form demo, state cycling, and centered philosophy modal.
+
+### Prompt
+> I would like to introduce one major product feature that should become one of the highlights of this redesign.
+> 
+> ## Feature: Guided Product Tour
+> Instead of expecting users or judges to manually discover the product, build an interactive guided tour that automatically showcases the platform's key features in approximately 45–60 seconds.
+> This is NOT a video.
+> This is an interactive product walkthrough similar to onboarding experiences in Notion, Linear, Slack, or modern SaaS products.
+> 
+> Entry Point:
+> On the Landing Page Hero section, add two primary actions:
+> Primary CTA: 🚀 Start Your Journey
+> Secondary CTA: ✨ Take a 60-Second Product Tour
+
+### Outcome
+- Created `TourContext.tsx`, `TourOverlay.tsx`, and `TourEndingModal.tsx`.
+- Implemented Framer Motion spotlight cutout ring and tooltips over elements marked with `data-tour`.
+- Configured automated Step 7 form auto-filling (GitHub link, LinkedIn link, reflection win, mood selection) with celebratory `canvas-confetti` explosion.
+- Added persistent `Skip Tour` button and quick header trigger.
+
+---
+
+## Prompt 7: High-Clarity UI Text & Blur Filter Removal
+
+### Objective
+Eliminate excessive blur filters that obfuscated page text behind backdrop overlays during the tour and general viewing.
+
+### Prompt
+> heyy the content on the page is blurred .. it should be visible right only then it looks undestandable
+
+### Outcome
+- Removed `backdrop-blur-[2px]` from `TourOverlay.tsx` backdrop layer.
+- Removed `backdrop-blur-md` and `blur-sm` from locked preview cards in `RecruiterSnapshot.tsx`.
+- Replaced backdrop blur filters in `index.css` with clean solid background colors (`#18181B`) for crisp text legibility.
+
+---
+
+## Prompt 8: Idempotent Challenge Completions & Score Guardrail
+
+### Objective
+Prevent duplicate Momentum Score inflation when users click "Complete Day" multiple times on the same challenge.
+
+### Prompt
+> and also one thing i am noticing now is... that after clicking on the compleate day and build momentum , if i click on the same day multiple times it increases the momentum percentages... it is not right ,right???
+> please fix it and commit changes
+
+### Outcome
+- Updated `submitDayChallenge` in `DemoStateContext.tsx` to inspect whether target task was already completed.
+- Ensured first-time submissions award `+8%` momentum, while subsequent re-submissions update submission links/logs idempotently without inflating momentum score.
+
+---
+
+## Prompt 9: Automated State-Specific Demo Walkthroughs
+
+### Objective
+Add dedicated automated video-like walkthrough triggers for each of the 5 demo states in the Demo Switcher.
+
+### Prompt
+> in the demo secction make a dummy automatically demo walkthrough in the recovery section of getting back to the track ... likewise make the video for the all the states
+
+### Outcome
+- Added `startStateWalkthrough(mode)` to `TourContext.tsx`.
+- Updated `DemoSwitcher.tsx` to render a **`▶️ Demo`** button next to each preset state.
+- Enabled 1-click automated walkthroughs for Starting, Building, Recovering, Empty Profile, and Graduate states.
+
+---
+
+## Prompt 10: Recovery State Celebration Popup Modal
+
+### Objective
+Create a dedicated "Welcome Back On Track" popup modal when a student in the Recovering state completes a challenge.
+
+### Prompt
+> in the recovery section after submitting some tasks that person have to get back to the track ... like some encouraging pop up msg has to be displayed once the getting back to the track ... addd a video of it like not just
+
+### Outcome
+- Created `RecoveryModal.tsx` displaying an encouraging welcome-back message ("Consistency is built by returning, not by being perfect").
+- Integrated modal into `SubmissionCard.tsx` completion flow.
+- Added animated **Live Recovery Showcase Banner** on `MomentumCard.tsx` with a direct `Watch Demo` button.
+
+---
+
+## Prompt 11: Threshold-Gated Recovery State Transition
+
+### Objective
+Ensure the student's status updates from "Recovering" to "Thriving" first before displaying the celebratory popup.
+
+### Prompt
+> in the recovery state video demo the state should get updated recovering to thriving once the thresold reaches only after reaching that the hurray pop up should display
+
+### Outcome
+- Modified `DemoStateContext.tsx` submission evaluation flow to process completed days, update momentum status to `Thriving (88%)`, and trigger the celebratory modal only after threshold completion.
+
+---
+
+## Prompt 12: Milestone-Based Recovery Celebration System (>=88% Momentum)
+
+### Objective
+Refine recovery logic so the celebration triggers **only when momentum reaches or exceeds 88%** (milestone-based, single-trigger per recovery cycle) rather than after a single completed task.
+
+### Prompt
+> I would like to improve the recovery system by making it milestone-based instead of task-based.
+> 
+> ## New Behaviour
+> The application should continuously monitor and analyze the student's Momentum Score.
+> The recovery celebration should NOT be triggered after completing one challenge.
+> Instead, it should only trigger once the student's Momentum reaches or exceeds 88%.
+> 
+> ## Recovery Celebration
+> When Momentum reaches 88%:
+> Display a premium full-screen celebration.
+> Sequential messages:
+> "Every developer stumbles."
+> ↓
+> "But the best developers always come back."
+> ↓
+> "Your consistency has paid off."
+> ↓
+> "You're officially back on track."
+> 
+> Then automatically navigate back to the Dashboard.
+> Display a toast: "Momentum Restored."
+
+### Outcome
+- Added `wasInRecoveryCycle`, `hasCelebratedRecovery`, and `showMilestoneCelebration` flags to `StudentProfile` interface and `DemoStateContext`.
+- Created full-screen overlay component `MilestoneRecoveryCelebration.tsx` with sequential Framer Motion text reveals and smoothly filling circular Momentum Ring.
+- Created `Toast.tsx` component to render **"Momentum Restored."** notification on dashboard return.
+- Removed single-task popups from `SubmissionCard.tsx`.
+
+---
+
+## Prompt 13: Live Percentage Count-Up Counter in Recovery Demo
+
+### Objective
+Animate the score percentage counter live on-screen from 62% to 88%+ inside the recovery celebration overlay.
+
+### Prompt
+> in demo video of the recovery state add this feature as well it has to show the dummy increasing percentage in the demo video
+
+### Outcome
+- Added dynamic count-up animation (`requestAnimationFrame`) in `MilestoneRecoveryCelebration.tsx`.
+- Score counter dynamically increments from `62%` to `88%+` in sync with the filling Momentum Ring and badge transition (`⚡ Rebuilding ➔ 🚀 Thriving`).
+
+---
+
+## Prompt 14: Documentation of AI Development Process (PROMPTS.md)
+
+### Objective
+Create a structured, chronological `PROMPTS.md` document in the root directory to document the end-to-end AI-assisted development process for hackathon submission verification.
+
+### Prompt
+> The hackathon requires a PROMPTS.md file documenting the AI-assisted development process.
+> Please create a well-structured PROMPTS.md in the root of the repository.
+> Review the complete conversation and development history from the beginning of this project and reconstruct the major prompt flow that was used to build this application.
+
+### Outcome
+- Generated root `PROMPTS.md` detailing Objectives, Prompts, and Technical Outcomes across all 14 major development milestones.
