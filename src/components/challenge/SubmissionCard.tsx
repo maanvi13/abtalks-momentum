@@ -5,6 +5,7 @@ import { useDemoState } from '../../context/DemoStateContext';
 import { useTour } from '../../context/TourContext';
 import { MOOD_OPTIONS } from '../../data/mockData';
 import { ChallengeTask } from '../../types';
+import { RecoveryModal } from './RecoveryModal';
 
 interface SubmissionCardProps {
   task: ChallengeTask;
@@ -21,6 +22,9 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showRecoveryModal, setShowRecoveryModal] = useState(false);
+
+  const isRecoveringMode = student.momentumStatus === 'Recovering';
 
   // Auto-Fill Form & Trigger Submission during Tour Step 7
   useEffect(() => {
@@ -70,11 +74,12 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
     }
 
     setIsSubmitting(true);
+    const wasRecovering = isRecoveringMode;
 
     // Trigger celebratory confetti burst
     confetti({
-      particleCount: 80,
-      spread: 70,
+      particleCount: 90,
+      spread: 80,
       origin: { y: 0.6 },
       colors: ['#2563EB', '#7C3AED', '#22C55E', '#F97316', '#FACC15'],
     });
@@ -88,8 +93,13 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
         mood: selectedMood,
       });
       setIsSubmitting(false);
+
       if (!isTourActive) {
-        setShowSuccessModal(true);
+        if (wasRecovering) {
+          setShowRecoveryModal(true);
+        } else {
+          setShowSuccessModal(true);
+        }
       }
     }, 400);
   };
@@ -212,7 +222,12 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
         </button>
       </form>
 
-      {/* Success Modal */}
+      {/* Encouraging Recovery Back-On-Track Modal */}
+      {showRecoveryModal && (
+        <RecoveryModal dayId={task.id} onClose={() => setShowRecoveryModal(false)} />
+      )}
+
+      {/* Standard Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="w-full max-w-sm glass-card rounded-2xl p-6 border border-emerald-500/40 text-center space-y-4 animate-in zoom-in-95 duration-200">
