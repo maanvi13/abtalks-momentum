@@ -249,3 +249,26 @@ Create a structured, chronological `PROMPTS.md` document in the root directory t
 
 ### Outcome
 - Generated root `PROMPTS.md` detailing Objectives, Prompts, and Technical Outcomes across all 14 major development milestones.
+
+---
+
+## Prompt 15 – Permanent Auto-Documenting Development Workflow Setup
+
+### Timestamp
+2026-08-08 22:08:52
+
+### Objective
+Establish a mandatory, permanent development workflow where every subsequent prompt resulting in product decisions, UI changes, architecture updates, feature additions, bug fixes, refactors, or animations is automatically appended to PROMPTS.md in chronological order.
+
+### Prompt
+> I want to establish a permanent development workflow for this project.
+> From this point onward, every prompt I provide that results in a product decision, UI change, architecture update, feature addition, implementation, bug fix, refactor, animation, or any meaningful modification must automatically be documented in the root-level PROMPTS.md file.
+
+### Implementation Summary
+Configured permanent workflow rules ensuring all future prompts, Objectives, Timestamps, Implementation Summaries, Files Modified, and Outcomes are continuously appended to PROMPTS.md without overwriting previous history.
+
+### Files Modified
+- `PROMPTS.md`
+
+### Outcome
+Successfully established permanent automated development logging protocol in `PROMPTS.md`.
