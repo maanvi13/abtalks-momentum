@@ -1,9 +1,10 @@
 import React from 'react';
-import { Trophy, Share2, Download, Sparkles, CheckCircle2, Star, Award } from 'lucide-react';
+import { Trophy, Share2, Download, Star } from 'lucide-react';
 import { useDemoState } from '../../context/DemoStateContext';
+import { generateGraduatePdfReport } from '../../utils/generatePdfReport';
 
 export const GraduateCelebrationBanner: React.FC = () => {
-  const { student } = useDemoState();
+  const { student, achievements } = useDemoState();
   if (student.completedDaysCount < 60 && student.momentumStatus !== 'Mastered') return null;
 
   const handleShare = () => {
@@ -15,12 +16,12 @@ export const GraduateCelebrationBanner: React.FC = () => {
       }).catch(() => {});
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Journey link copied to clipboard!');
+      alert('Journey share link copied to clipboard!');
     }
   };
 
   const handleDownloadReport = () => {
-    alert('Generating your verified 60-Day ABTalks Momentum Certificate & Recruiter PDF Digest...');
+    generateGraduatePdfReport(student, achievements);
   };
 
   return (
@@ -64,7 +65,7 @@ export const GraduateCelebrationBanner: React.FC = () => {
           <div className="text-[10px] text-zinc-400">Days Logged</div>
         </div>
         <div className="bg-zinc-900/80 p-2.5 rounded-xl border border-zinc-800">
-          <div className="text-sm font-extrabold text-blue-400">48 Recruiter</div>
+          <div className="text-sm font-extrabold text-blue-400">{student.recruiterViewCount || 48} Recruiter</div>
           <div className="text-[10px] text-zinc-400">Views</div>
         </div>
       </div>
@@ -81,10 +82,10 @@ export const GraduateCelebrationBanner: React.FC = () => {
 
         <button
           onClick={handleDownloadReport}
-          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-xs border border-zinc-700/60 transition-all"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-xs border border-zinc-700/60 transition-all hover:border-amber-500/40"
         >
           <Download className="w-3.5 h-3.5 text-amber-400" />
-          <span>Download Certificate</span>
+          <span>Download Journey PDF</span>
         </button>
       </div>
     </div>
