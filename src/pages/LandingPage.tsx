@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Flame, Sparkles, ArrowRight, ShieldCheck, HeartHandshake, Trophy, CheckCircle2, XCircle, Rocket } from 'lucide-react';
+import { Flame, Sparkles, ShieldCheck, HeartHandshake, Trophy, CheckCircle2, XCircle, Rocket, Play } from 'lucide-react';
 import { useDemoState } from '../context/DemoStateContext';
-import { useTour } from '../context/TourContext';
+import { useSimulator } from '../context/SimulatorContext';
 
 export const LandingPage: React.FC = () => {
   const { student } = useDemoState();
-  const { startTour } = useTour();
-  const currentDay = student.currentDay || 1;
+  const { startSimulator } = useSimulator();
 
   return (
     <div className="p-4 sm:p-5 space-y-6 animate-in fade-in duration-300">
@@ -43,11 +42,11 @@ export const LandingPage: React.FC = () => {
           </Link>
 
           <button
-            onClick={startTour}
-            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-purple-300 font-semibold text-xs border border-purple-500/30 hover:border-purple-500/60 transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-500/10"
+            onClick={startSimulator}
+            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-purple-900/40 via-zinc-900 to-blue-900/40 hover:from-purple-900/60 hover:to-blue-900/60 text-purple-300 font-bold text-xs border border-purple-500/40 hover:border-purple-500/80 transition-all flex items-center justify-center gap-2 shadow-lg shadow-purple-500/15 hover:scale-105 active:scale-95"
           >
             <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
-            <span>Take a 60-Second Product Tour</span>
+            <span>✨ See Momentum in Action</span>
           </button>
         </div>
       </div>

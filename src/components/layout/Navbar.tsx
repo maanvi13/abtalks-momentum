@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Flame, Sparkles } from 'lucide-react';
+import { Flame, Sparkles, Play } from 'lucide-react';
 import { useDemoState } from '../../context/DemoStateContext';
-import { useTour } from '../../context/TourContext';
+import { useSimulator } from '../../context/SimulatorContext';
 
 export const Navbar: React.FC = () => {
   const { student, activeDemoMode } = useDemoState();
-  const { startTour, isTourActive } = useTour();
+  const { startSimulator, isSimulating } = useSimulator();
   const location = useLocation();
 
   return (
@@ -23,17 +23,17 @@ export const Navbar: React.FC = () => {
         </div>
       </Link>
 
-      {/* Right Action / Mini Momentum Badge & Tour Launcher */}
+      {/* Right Action / Mini Momentum Badge & Simulator Launcher */}
       <div className="flex items-center gap-2">
-        {/* Quick Product Tour Button */}
-        {!isTourActive && (
+        {/* Momentum Simulator Button */}
+        {!isSimulating && (
           <button
-            onClick={startTour}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-semibold transition-all hover:scale-105"
-            title="Start 60-Second Guided Product Tour"
+            onClick={startSimulator}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-purple-500/15 to-blue-500/15 hover:from-purple-500/25 hover:to-blue-500/25 border border-purple-500/30 text-purple-300 text-xs font-bold transition-all hover:scale-105 shadow-sm shadow-purple-500/10"
+            title="Launch Interactive 60-Day Momentum Simulator"
           >
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span className="hidden sm:inline">Product Tour</span>
+            <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
+            <span>Simulator</span>
           </button>
         )}
 

@@ -272,3 +272,44 @@ Configured permanent workflow rules ensuring all future prompts, Objectives, Tim
 
 ### Outcome
 Successfully established permanent automated development logging protocol in `PROMPTS.md`.
+
+---
+
+## Prompt 16 – Momentum Simulator Signature Showcase Feature
+
+### Timestamp
+2026-08-08 22:18:00
+
+### Objective
+Replace the existing Journey Preview with **Momentum Simulator** — a signature, interactive 8-step lifecycle simulation showcasing the complete 60-day student journey from Day 1 to Graduation, demonstrating momentum building, simulated exam inactivity, recovery milestone crossing (>=88%), and habit formation.
+
+### Prompt
+> I want to replace the existing "Journey Preview" with a new premium showcase feature called **Momentum Simulator**.
+> The Momentum Simulator should become one of the signature experiences of the application.
+> Instead of simply switching between static demo states, it should simulate the complete 60-day journey of a student by automatically demonstrating how the Momentum system behaves over time.
+> The goal is to tell a story through the product.
+
+### Implementation Summary
+- Created `src/context/SimulatorContext.tsx` managing the 8-step interactive lifecycle simulation state, auto-play timers, route navigation, and score animations.
+- Built `src/components/simulator/CalendarInactivityVisualizer.tsx` to render mini calendar visualizer showing Days 21-23 skipped with red strike-throughs and score dropping from 92% to 64% (Recovering).
+- Built `src/components/simulator/SimulatorOverlay.tsx` rendering spotlight cutouts, step indicators (Step 1 to 8), and persistent `Skip Simulation` button.
+- Built `src/components/simulator/SimulatorFinalModal.tsx` rendering the final centered habit reflection modal (*"You didn't just finish a challenge. You built a habit. Build Momentum. Not Pressure."*).
+- Updated Landing Page Secondary Hero CTA to `✨ See Momentum in Action`.
+- Mounted `SimulatorProvider`, `SimulatorOverlay`, `CalendarInactivityVisualizer`, and `SimulatorFinalModal` globally in `src/App.tsx`.
+
+### Files Modified
+- `src/context/SimulatorContext.tsx`
+- `src/components/simulator/CalendarInactivityVisualizer.tsx`
+- `src/components/simulator/SimulatorOverlay.tsx`
+- `src/components/simulator/SimulatorFinalModal.tsx`
+- `src/pages/LandingPage.tsx`
+- `src/components/layout/Navbar.tsx`
+- `src/components/layout/DemoSwitcher.tsx`
+- `src/App.tsx`
+- `PROMPTS.md`
+- `task.md`
+- `walkthrough.md`
+
+### Outcome
+Successfully implemented the Momentum Simulator interactive showcase feature, cleanly passing production build (`npm run build`) and enabling 1-click execution for hackathon judges and users.
+
