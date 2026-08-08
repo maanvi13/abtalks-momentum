@@ -19,6 +19,10 @@ export interface StudentProfile {
   winsLoggedCount: number;
   graduateDate?: string;
   recruiterViewCount?: number;
+  wasInRecoveryCycle?: boolean;
+  hasCelebratedRecovery?: boolean;
+  showMilestoneCelebration?: boolean;
+  toastMessage?: string;
 }
 
 export interface ChallengeTask {

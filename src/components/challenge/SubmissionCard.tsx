@@ -5,7 +5,6 @@ import { useDemoState } from '../../context/DemoStateContext';
 import { useTour } from '../../context/TourContext';
 import { MOOD_OPTIONS } from '../../data/mockData';
 import { ChallengeTask } from '../../types';
-import { RecoveryModal } from './RecoveryModal';
 
 interface SubmissionCardProps {
   task: ChallengeTask;
@@ -22,9 +21,6 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showRecoveryModal, setShowRecoveryModal] = useState(false);
-
-  const isRecoveringMode = student.momentumStatus === 'Recovering';
 
   // Auto-Fill Form & Trigger Submission during Tour Step 7
   useEffect(() => {
@@ -34,7 +30,7 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
       setWinLog('Mastered React Context state engines & dynamic component architecture!');
       setSelectedMood('focused');
 
-      // Auto trigger submit after 1 second typing delay
+      // Auto trigger submit after 1.2 second typing delay
       const autoSubmitTimer = setTimeout(() => {
         setIsSubmitting(true);
         confetti({
@@ -74,7 +70,6 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
     }
 
     setIsSubmitting(true);
-    const wasRecovering = isRecoveringMode;
 
     // Trigger celebratory confetti burst
     confetti({
@@ -94,12 +89,8 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
       });
       setIsSubmitting(false);
 
-      if (!isTourActive) {
-        if (wasRecovering) {
-          setShowRecoveryModal(true);
-        } else {
-          setShowSuccessModal(true);
-        }
+      if (!isTourActive && !student.showMilestoneCelebration) {
+        setShowSuccessModal(true);
       }
     }, 400);
   };
@@ -221,11 +212,6 @@ export const SubmissionCard: React.FC<SubmissionCardProps> = ({ task }) => {
           )}
         </button>
       </form>
-
-      {/* Encouraging Recovery Back-On-Track Modal */}
-      {showRecoveryModal && (
-        <RecoveryModal dayId={task.id} onClose={() => setShowRecoveryModal(false)} />
-      )}
 
       {/* Standard Success Modal */}
       {showSuccessModal && (

@@ -12,6 +12,8 @@ interface DemoStateContextType {
   submitDayChallenge: (payload: SubmissionPayload) => boolean;
   updateProfile: (updated: Partial<StudentProfile>) => void;
   getTaskById: (id: number) => ChallengeTask | undefined;
+  dismissMilestoneCelebration: () => void;
+  clearToast: () => void;
 }
 
 const STORAGE_KEY_MODE = 'abtalks_momentum_demo_mode';
@@ -79,7 +81,10 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     });
 
     setActiveDemoMode(mode);
-    setStudent(presetStudent);
+    setStudent({
+      ...presetStudent,
+      showMilestoneCelebration: false,
+    });
     setTasks(presetTasks);
     setAchievements(presetAchievements);
   };
@@ -96,6 +101,23 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
   // Get task helper
   const getTaskById = (id: number) => {
     return tasks.find(t => t.id === id);
+  };
+
+  // Dismiss milestone celebration & trigger dashboard toast
+  const dismissMilestoneCelebration = () => {
+    setStudent(prev => ({
+      ...prev,
+      showMilestoneCelebration: false,
+      toastMessage: 'Momentum Restored.',
+    }));
+  };
+
+  // Clear toast notification
+  const clearToast = () => {
+    setStudent(prev => ({
+      ...prev,
+      toastMessage: undefined,
+    }));
   };
 
   // Handle live challenge submission (Idempotent per day)
@@ -133,6 +155,12 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         : Math.min(100, prev.momentumScore + 8);
       const isGraduate = newCompletedCount >= 60;
 
+      // Milestone Recovery Check: Must cross 88% momentum after being in recovery cycle
+      const shouldTriggerMilestoneCelebration =
+        newMomentum >= 88 &&
+        Boolean(prev.wasInRecoveryCycle) &&
+        !Boolean(prev.hasCelebratedRecovery);
+
       return {
         ...prev,
         completedDaysCount: newCompletedCount,
@@ -142,6 +170,9 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         isGithubConnected: true,
         isLinkedinConnected: true,
         currentDay: Math.min(60, Math.max(prev.currentDay, dayId + 1)),
+        showMilestoneCelebration: shouldTriggerMilestoneCelebration ? true : prev.showMilestoneCelebration,
+        hasCelebratedRecovery: shouldTriggerMilestoneCelebration ? true : prev.hasCelebratedRecovery,
+        wasInRecoveryCycle: shouldTriggerMilestoneCelebration ? false : prev.wasInRecoveryCycle,
         momentumMessage: wasAlreadyCompleted
           ? `Updated Day ${dayId} submission proof!`
           : `Fantastic work completing Day ${dayId}! Your submission proof and reflection win have been recorded.`
@@ -189,7 +220,9 @@ export const DemoStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         resetToDefault,
         submitDayChallenge,
         updateProfile,
-        getTaskById
+        getTaskById,
+        dismissMilestoneCelebration,
+        clearToast,
       }}
     >
       {children}

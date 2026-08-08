@@ -64,6 +64,8 @@ export const STUDENT_PRESETS: Record<DemoStateMode, StudentProfile> = {
     completedDaysCount: 15,
     winsLoggedCount: 14,
     recruiterViewCount: 6,
+    wasInRecoveryCycle: true,
+    hasCelebratedRecovery: false,
   },
   empty: {
     name: 'New Student',

@@ -8,6 +8,8 @@ import { BottomNav } from './components/layout/BottomNav';
 import { DemoSwitcher } from './components/layout/DemoSwitcher';
 import { TourOverlay } from './components/tour/TourOverlay';
 import { TourEndingModal } from './components/tour/TourEndingModal';
+import { MilestoneRecoveryCelebration } from './components/challenge/MilestoneRecoveryCelebration';
+import { Toast } from './components/common/Toast';
 
 import { LandingPage } from './pages/LandingPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -34,6 +36,8 @@ export function App() {
             <DemoSwitcher />
             <TourOverlay />
             <TourEndingModal />
+            <MilestoneRecoveryCelebration />
+            <Toast />
           </MobileShell>
         </TourProvider>
       </BrowserRouter>
