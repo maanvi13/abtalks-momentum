@@ -313,3 +313,33 @@ Replace the existing Journey Preview with **Momentum Simulator** — a signature
 ### Outcome
 Successfully implemented the Momentum Simulator interactive showcase feature, cleanly passing production build (`npm run build`) and enabling 1-click execution for hackathon judges and users.
 
+---
+
+## Prompt 17 – Momentum State Allocation Percentage Ranges Legend
+
+### Timestamp
+2026-08-09 02:28:48
+
+### Objective
+Enhance the Momentum Overview card (`MomentumCard.tsx`) with a clear, interactive visual breakdown legend displaying the exact percentage ranges allocated to each Momentum state tier.
+
+### Prompt
+> in the overview section it would have been better if we have added the from which percentage to which percent the specific states are allocated
+
+### Implementation Summary
+- Added `Momentum State Allocation` grid breakdown legend in `src/components/dashboard/MomentumCard.tsx`:
+  - **🌱 Starting:** `0% – 25%` (Initial habit formation)
+  - **🌤 Building:** `26% – 50%` (Consistency building)
+  - **🔥 Growing:** `51% – 79%` (Strong daily routine)
+  - **💙 Recovering:** `< 70%` (During non-punitive recovery cycle)
+  - **🚀 Thriving / Mastered:** `80% – 100%` (Optimal momentum & graduation)
+- Highlighted active student state tier dynamically based on real-time score.
+
+### Files Modified
+- `src/components/dashboard/MomentumCard.tsx`
+- `PROMPTS.md`
+
+### Outcome
+Successfully added the Momentum State Percentage Allocation Legend to the Dashboard Overview card, passing clean production build (`npm run build`).
+
+
