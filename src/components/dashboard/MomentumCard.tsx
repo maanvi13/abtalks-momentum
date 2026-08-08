@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flame, HeartHandshake, Sparkles, ShieldCheck, Layers } from 'lucide-react';
+import { Flame, HeartHandshake, Sparkles, Layers } from 'lucide-react';
 import { useDemoState } from '../../context/DemoStateContext';
 
 export const MomentumCard: React.FC = () => {
@@ -16,24 +16,24 @@ export const MomentumCard: React.FC = () => {
     <div data-tour="momentum-card" className="glass-card rounded-2xl p-5 border border-zinc-800 relative overflow-hidden space-y-4">
       {/* Top Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className={`p-2 rounded-xl ${isRecovering ? 'bg-indigo-500/15 text-indigo-400' : 'bg-blue-500/15 text-blue-400'}`}>
+        <div className="flex items-center gap-2.5">
+          <div className={`p-2.5 rounded-xl ${isRecovering ? 'bg-indigo-500/15 text-indigo-400' : 'bg-blue-500/15 text-blue-400'}`}>
             <Flame className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white tracking-tight">Momentum Score</h2>
-            <p className="text-[11px] text-zinc-400">Consistency over perfection</p>
+            <h2 className="text-base font-bold text-white tracking-tight">Momentum Score</h2>
+            <p className="text-xs text-zinc-400">Consistency over perfection</p>
           </div>
         </div>
 
         {/* Status Badge */}
         <span
-          className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${
+          className={`text-xs font-bold px-3 py-1 rounded-full border ${
             isRecovering
               ? 'bg-indigo-500/15 text-indigo-300 border-indigo-500/40 animate-pulse'
               : score >= 80
-              ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30'
-              : 'bg-blue-500/10 text-blue-300 border-blue-500/30'
+              ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40'
+              : 'bg-blue-500/15 text-blue-300 border-blue-500/40'
           }`}
         >
           {student.momentumStatus}
@@ -68,89 +68,89 @@ export const MomentumCard: React.FC = () => {
             />
           </svg>
           <div className="absolute flex flex-col items-center justify-center">
-            <span className="text-2xl font-extrabold text-white tracking-tight">{score}%</span>
-            <span className="text-[9px] uppercase tracking-wider text-zinc-400 font-semibold">Momentum</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{score}%</span>
+            <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">Momentum</span>
           </div>
         </div>
 
         {/* Stat Breakdown Pills */}
         <div className="flex-1 space-y-2">
-          <div className="bg-zinc-900/60 p-2.5 rounded-xl border border-zinc-800/80 flex items-center justify-between text-xs">
-            <span className="text-zinc-400">Completed Days</span>
-            <span className="font-bold text-white">{student.completedDaysCount} / 60</span>
+          <div className="bg-zinc-900/80 p-2.5 rounded-xl border border-zinc-800 flex items-center justify-between text-xs sm:text-sm">
+            <span className="text-zinc-400 font-medium">Completed Days</span>
+            <span className="font-extrabold text-white">{student.completedDaysCount} / 60</span>
           </div>
-          <div className="bg-zinc-900/60 p-2.5 rounded-xl border border-zinc-800/80 flex items-center justify-between text-xs">
-            <span className="text-zinc-400">Wins Logged</span>
-            <span className="font-bold text-emerald-400">{student.winsLoggedCount}</span>
+          <div className="bg-zinc-900/80 p-2.5 rounded-xl border border-zinc-800 flex items-center justify-between text-xs sm:text-sm">
+            <span className="text-zinc-400 font-medium">Wins Logged</span>
+            <span className="font-extrabold text-emerald-400">{student.winsLoggedCount}</span>
           </div>
         </div>
       </div>
 
       {/* Momentum State Allocation Ranges Legend */}
-      <div className="pt-2 border-t border-zinc-800/80 space-y-1.5">
-        <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 flex items-center justify-between">
-          <span className="flex items-center gap-1">
-            <Layers className="w-3 h-3 text-blue-400" />
-            Momentum State Allocation
+      <div className="pt-2 border-t border-zinc-800/80 space-y-2">
+        <div className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center justify-between">
+          <span className="flex items-center gap-1.5">
+            <Layers className="w-3.5 h-3.5 text-blue-400" />
+            Momentum Tiers
           </span>
           <span>Score Range</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-1.5 text-[10px]">
+        <div className="grid grid-cols-2 gap-2 text-xs">
           <div
-            className={`p-1.5 rounded-lg border flex items-center justify-between transition-colors ${
+            className={`p-2 rounded-xl border flex items-center justify-between transition-colors ${
               score >= 0 && score <= 25 && !isRecovering
-                ? 'bg-blue-500/15 border-blue-500/40 text-blue-300 font-bold'
-                : 'bg-zinc-900/60 border-zinc-800/60 text-zinc-400'
+                ? 'bg-blue-500/20 border-blue-500/50 text-blue-200 font-bold'
+                : 'bg-zinc-900/80 border-zinc-800 text-zinc-300'
             }`}
           >
             <span>🌱 Starting</span>
-            <span className="font-mono">0% – 25%</span>
+            <span className="font-mono text-xs font-bold">0% – 25%</span>
           </div>
 
           <div
-            className={`p-1.5 rounded-lg border flex items-center justify-between transition-colors ${
+            className={`p-2 rounded-xl border flex items-center justify-between transition-colors ${
               score >= 26 && score <= 50 && !isRecovering
-                ? 'bg-blue-500/15 border-blue-500/40 text-blue-300 font-bold'
-                : 'bg-zinc-900/60 border-zinc-800/60 text-zinc-400'
+                ? 'bg-blue-500/20 border-blue-500/50 text-blue-200 font-bold'
+                : 'bg-zinc-900/80 border-zinc-800 text-zinc-300'
             }`}
           >
             <span>🌤 Building</span>
-            <span className="font-mono">26% – 50%</span>
+            <span className="font-mono text-xs font-bold">26% – 50%</span>
           </div>
 
           <div
-            className={`p-1.5 rounded-lg border flex items-center justify-between transition-colors ${
+            className={`p-2 rounded-xl border flex items-center justify-between transition-colors ${
               isRecovering
-                ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300 font-bold'
+                ? 'bg-indigo-500/20 border-indigo-500/50 text-indigo-200 font-bold'
                 : score >= 51 && score <= 79
-                ? 'bg-blue-500/15 border-blue-500/40 text-blue-300 font-bold'
-                : 'bg-zinc-900/60 border-zinc-800/60 text-zinc-400'
+                ? 'bg-blue-500/20 border-blue-500/50 text-blue-200 font-bold'
+                : 'bg-zinc-900/80 border-zinc-800 text-zinc-300'
             }`}
           >
             <span>{isRecovering ? '💙 Recovering' : '🔥 Growing'}</span>
-            <span className="font-mono">{isRecovering ? '< 70%' : '51% – 79%'}</span>
+            <span className="font-mono text-xs font-bold">{isRecovering ? '< 70%' : '51% – 79%'}</span>
           </div>
 
           <div
-            className={`p-1.5 rounded-lg border flex items-center justify-between transition-colors ${
+            className={`p-2 rounded-xl border flex items-center justify-between transition-colors ${
               score >= 80 && score <= 100 && !isRecovering
-                ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300 font-bold'
-                : 'bg-zinc-900/60 border-zinc-800/60 text-zinc-400'
+                ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-200 font-bold'
+                : 'bg-zinc-900/80 border-zinc-800 text-zinc-300'
             }`}
           >
-            <span>🚀 Thriving / Mastered</span>
-            <span className="font-mono">80% – 100%</span>
+            <span>🚀 Thriving</span>
+            <span className="font-mono text-xs font-bold">80% – 100%</span>
           </div>
         </div>
       </div>
 
       {/* Non-Punitive Motivational Banner */}
       <div
-        className={`p-3 rounded-xl border flex items-start gap-2.5 text-xs transition-colors ${
+        className={`p-3.5 rounded-xl border flex items-start gap-2.5 text-xs sm:text-sm transition-colors ${
           isRecovering
-            ? 'bg-indigo-950/40 border-indigo-500/30 text-indigo-200'
-            : 'bg-zinc-900/80 border-zinc-800 text-zinc-300'
+            ? 'bg-indigo-950/50 border-indigo-500/40 text-indigo-200'
+            : 'bg-zinc-900/90 border-zinc-800 text-zinc-200'
         }`}
       >
         {isRecovering ? (
@@ -158,7 +158,7 @@ export const MomentumCard: React.FC = () => {
         ) : (
           <Sparkles className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
         )}
-        <p className="leading-relaxed text-[11px] font-medium">{student.momentumMessage}</p>
+        <p className="leading-relaxed font-medium text-xs sm:text-sm">{student.momentumMessage}</p>
       </div>
     </div>
   );

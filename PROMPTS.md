@@ -478,6 +478,34 @@ Add `vercel.json` with SPA rewrite rules to ensure client-side React Router navi
 ### Outcome
 Successfully configured Vercel deployment SPA rewrite rules, ensuring unbroken client-side routing across all application paths.
 
+---
+
+## Prompt 23 – Mobile Typography & Readability Upgrade
+
+### Timestamp
+2026-08-09 04:26:33
+
+### Objective
+Upgrade typography sizes across key mobile view components (`Navbar.tsx`, `MomentumCard.tsx`, `BottomNav.tsx`) to ensure comfortable font sizes (`text-xs`, `text-sm`, `text-base`) and high readability in mobile mode.
+
+### Prompt
+> i feel like the text is too small in the mobile mode
+
+### Implementation Summary
+- Upgraded font sizes in `Navbar.tsx` (`text-sm sm:text-base` for logo, `text-xs font-bold` for buttons & badges).
+- Upgraded typography in `MomentumCard.tsx` (`text-base font-bold` for title, `text-xs` for subtitles & tier legends, `text-2xl sm:text-3xl font-extrabold` for score count).
+- Upgraded label size in `BottomNav.tsx` from `text-[10px]` to `text-xs font-semibold`.
+
+### Files Modified
+- `src/components/layout/Navbar.tsx`
+- `src/components/dashboard/MomentumCard.tsx`
+- `src/components/layout/BottomNav.tsx`
+- `PROMPTS.md`
+
+### Outcome
+Successfully upgraded typography scale across mobile components for superior text legibility, passing clean production build (`npm run build`).
+
+
 
 
 

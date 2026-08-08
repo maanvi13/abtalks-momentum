@@ -24,13 +24,13 @@ export const BottomNav: React.FC = () => {
             className={({ isActive }) =>
               `flex flex-col items-center justify-center py-1.5 px-3 rounded-full transition-all duration-200 text-xs font-medium ${
                 isActive
-                  ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
+                  ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold'
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
               }`
             }
           >
-            <item.icon className="w-4 h-4 mb-0.5" />
-            <span className="text-[10px] tracking-tight">{item.label}</span>
+            <item.icon className="w-4.5 h-4.5 mb-0.5" />
+            <span className="text-xs font-semibold tracking-tight">{item.label}</span>
           </NavLink>
         ))}
       </div>
